@@ -10,29 +10,20 @@ import {
   Button,
   Input,
   VStack,
-  //   TextArea,
+  Select,
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText,
 } from '@chakra-ui/react';
 
-import { Field, Form, Formik, useFormik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const CreatePostModal = ({ isOpen, onClose }) => {
-  const [value, setValue] = useState('');
+  const [postContent, setPostContent] = useState('');
 
-  //   const formik = useFormik({
-  //     initialValues: {
-  //       email: '',
-  //     },
-  //     onSubmit: values => {
-  //       alert(JSON.stringify(values, null, 2));
-  //     },
-  //   });
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -59,20 +50,17 @@ const CreatePostModal = ({ isOpen, onClose }) => {
     'link',
     'image',
   ];
-  function validateName(value) {
-    // let error;
+
+  const validateName = value => {
     // if (!value) {
-    //   error = 'Name is required';
-    // } else if (value.toLowerCase() !== 'naruto') {
-    //   error = "Jeez! You're not a fan 😱";
+    //   return 'Field is required';
     // }
-    // return error;
-    console.log('validated');
-  }
+    // return '';
+    console.log('vjhgvhgckh');
+  };
+
   return (
     <>
-      {/* <Button onClick={onOpen}>Open Modal</Button> */}
-
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -85,11 +73,15 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 summary: '',
                 image: '',
                 date: '',
-                post: '',
+                category: '',
               }}
               onSubmit={(values, actions) => {
+                const formData = {
+                  ...values,
+                  post: postContent,
+                };
                 setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
+                  alert(JSON.stringify(formData, null, 2));
                   actions.setSubmitting(false);
                 }, 1000);
               }}
@@ -100,6 +92,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               {props => (
                 <Form>
                   <VStack spacing={8}>
+                    {/* Your other fields here */}
                     <Field name="title" validate={validateName}>
                       {({ field, form }) => (
                         <FormControl
@@ -113,7 +106,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="summart" validate={validateName}>
+                    <Field name="summary" validate={validateName}>
                       {({ field, form }) => (
                         <FormControl
                           isInvalid={
@@ -121,9 +114,28 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                           }
                         >
                           <FormLabel>Summary</FormLabel>
-                          <Input {...field} placeholder="name" size="lg" />
+                          <Input {...field} placeholder="summary" size="lg" />
                           <FormErrorMessage>
                             {form.errors.summary}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
+                    <Field name="category" validate={validateName}>
+                      {({ field, form }) => (
+                        <FormControl
+                          isInvalid={
+                            form.errors.category && form.touched.category
+                          }
+                        >
+                          <FormLabel>Categories</FormLabel>
+                          <Select placeholder="Select Category" {...field}>
+                            <option value="Thoughts">Thoughts</option>
+                            <option value="Children">Children</option>
+                            <option value="Family">Family</option>
+                          </Select>
+                          <FormErrorMessage>
+                            {form.errors.category}
                           </FormErrorMessage>
                         </FormControl>
                       )}
@@ -170,19 +182,34 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                         </FormControl>
                       )}
                     </Field>
-                    <ReactQuill
-                      theme="snow"
-                      value={value}
-                      onChange={setValue}
-                      modules={modules}
-                      formats={formats}
-                    />
+                    <Field name="post" validate={validateName}>
+                      {({ field, form }) => (
+                        <FormControl
+                          isInvalid={form.errors.post && form.touched.post}
+                        >
+                          <FormLabel>Post</FormLabel>
+                          <ReactQuill
+                            theme="snow"
+                            value={postContent}
+                            onChange={(content, delta, source, editor) => {
+                              setPostContent(content);
+                              form.setFieldValue(field.name, content);
+                            }}
+                            onBlur={field.onBlur}
+                            modules={modules}
+                            formats={formats}
+                          />
+                          <FormErrorMessage>
+                            {form.errors.post}
+                          </FormErrorMessage>
+                        </FormControl>
+                      )}
+                    </Field>
                   </VStack>
                   <ModalFooter>
                     <Button
                       onClick={onClose}
                       colorScheme="blue"
-                      //   mr={3}
                       isLoading={props.isSubmitting}
                       type="submit"
                     >
