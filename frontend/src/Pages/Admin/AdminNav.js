@@ -13,7 +13,7 @@ const AdminNav = () => {
           <Link to="/">BORNATMIDKNIGHT</Link>
           <Box>
             <HStack space={4} justifyContent="space-between">
-              <Button colorScheme="white" variant="white" onClick={onOpen}>
+              <Button colorScheme="white" variant="outline" onClick={onOpen}>
                 Create Post
               </Button>
             </HStack>

@@ -1,24 +1,25 @@
-import { Center, Flex, Box, HStack, Text, Link } from '@chakra-ui/react';
+import { Center, Flex, Box, HStack, Text } from '@chakra-ui/react';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
     <>
-      <Box p={4}>
+      <Box>
         <Center>
           <HStack spacing="70vw" direction="row">
             <Link
               color="gray.400"
-              href="/"
-              fontSize="2xl"
-              target="_blank"
+              to="/"
+              fontSize="3xl"
+              // target="_blank"
               rel="noopener noreferrer"
             >
               BORNATMIDKNIGHT
             </Link>
             <Box>
               <HStack spacing={2}>
-                <Box>All Posts</Box>
+                <Link to="/all-posts">All Posts</Link>
                 <ColorModeSwitcher />
               </HStack>
             </Box>
