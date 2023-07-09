@@ -15,9 +15,7 @@ import {
   FormLabel,
   FormErrorMessage,
 } from '@chakra-ui/react';
-
 import { Field, Form, Formik } from 'formik';
-
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -75,15 +73,32 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 date: '',
                 category: '',
               }}
-              onSubmit={(values, actions) => {
-                const formData = {
-                  ...values,
-                  post: postContent,
-                };
-                setTimeout(() => {
-                  alert(JSON.stringify(formData, null, 2));
-                  actions.setSubmitting(false);
-                }, 1000);
+              onSubmit={async (values, actions) => {
+                // const formData = new FormData();
+                // formData.set('title', values.title);
+                // formData.set('summary', values.summary);
+                // formData.set('category', values.category);
+                // formData.set('image', values.image);
+                // formData.set('date', values.date);
+                // formData.set('content', postContent);
+                console.log(values);
+
+                const data = { ...values, postContent };
+                console.log(data);
+                const response = await fetch('http://localhost:4000/post', {
+                  method: 'POST',
+                  body: JSON.stringify(data),
+                  headers: { 'Content-Type': 'application/json' },
+                });
+                actions.setSubmitting(false);
+
+                if (response.ok) {
+                  alert('added successfully');
+                } else {
+                  alert('not added');
+                }
+
+                // alert(title, summary, category, date, content);
               }}
               onReset={() => {
                 // Reset form values
@@ -182,7 +197,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="post" validate={validateName}>
+                    <Field name="postContent" validate={validateName}>
                       {({ field, form }) => (
                         <FormControl
                           isInvalid={form.errors.post && form.touched.post}
@@ -198,6 +213,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                             onBlur={field.onBlur}
                             modules={modules}
                             formats={formats}
+                            {...field}
                           />
                           <FormErrorMessage>
                             {form.errors.post}
