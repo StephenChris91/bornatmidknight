@@ -17,15 +17,6 @@ db.connect(
 app.post("/post", async (req, res) => {
   const { title, summary, postContent, category, date } = req.body;
 
-  console.log(req.body);
-  // console.log("Received data:", {
-  //   title,
-  //   summary,
-  //   content,
-  //   category,
-  //   date,
-  // });
-
   const newPostRef = await Post.create({
     title,
     summary,

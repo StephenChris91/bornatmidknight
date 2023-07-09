@@ -72,15 +72,9 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 image: '',
                 date: '',
                 category: '',
+                // postContent: null,
               }}
               onSubmit={async (values, actions) => {
-                // const formData = new FormData();
-                // formData.set('title', values.title);
-                // formData.set('summary', values.summary);
-                // formData.set('category', values.category);
-                // formData.set('image', values.image);
-                // formData.set('date', values.date);
-                // formData.set('content', postContent);
                 console.log(values);
 
                 const data = { ...values, postContent };
@@ -97,8 +91,6 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                 } else {
                   alert('not added');
                 }
-
-                // alert(title, summary, category, date, content);
               }}
               onReset={() => {
                 // Reset form values
@@ -206,14 +198,14 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                           <ReactQuill
                             theme="snow"
                             value={postContent}
-                            onChange={(content, delta, source, editor) => {
-                              setPostContent(content);
-                              form.setFieldValue(field.name, content);
+                            onChange={newContent => {
+                              console.log(newContent);
+                              setPostContent(newContent);
                             }}
-                            onBlur={field.onBlur}
+                            // onBlur={field.onBlur}
                             modules={modules}
                             formats={formats}
-                            {...field}
+                            // {...field}
                           />
                           <FormErrorMessage>
                             {form.errors.post}
