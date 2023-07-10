@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -19,8 +19,24 @@ import { Field, Form, Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const CreatePostModal = ({ isOpen, onClose }) => {
+const UpdatePostModal = ({ isOpen, onClose, id }) => {
   const [postContent, setPostContent] = useState('');
+
+  //   const { id } = useParams();
+  const [post, setPost] = useState({});
+
+  const dateString = post.date;
+  const dateObj = new Date(dateString);
+
+  useEffect(() => {
+    const getPost = async () => {
+      const response = await fetch(`http://localhost:4000/post/${id}`);
+      const data = await response.json();
+      setPost(data);
+    };
+
+    getPost();
+  }, []);
 
   const modules = {
     toolbar: [
@@ -62,35 +78,35 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create Post</ModalHeader>
+          <ModalHeader>Update Post {id}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Formik
               initialValues={{
-                title: '',
-                summary: '',
-                image: '',
-                date: '',
-                category: '',
+                title: post.title,
+                summary: post.summary,
+                image: post.image,
+                date: post.date,
+                category: post.category,
                 // postContent: null,
               }}
               onSubmit={async (values, actions) => {
                 console.log(values);
 
-                const data = { ...values, postContent };
-                console.log(data);
-                const response = await fetch('http://localhost:4000/post', {
-                  method: 'POST',
-                  body: JSON.stringify(data),
-                  headers: { 'Content-Type': 'application/json' },
-                });
-                actions.setSubmitting(false);
+                // const data = { ...values, postContent };
+                // console.log(data);
+                // const response = await fetch('http://localhost:4000/post', {
+                //   method: 'POST',
+                //   body: JSON.stringify(data),
+                //   headers: { 'Content-Type': 'application/json' },
+                // });
+                // actions.setSubmitting(false);
 
-                if (response.ok) {
-                  alert('added successfully');
-                } else {
-                  alert('not added');
-                }
+                // if (response.ok) {
+                //   alert('added successfully');
+                // } else {
+                //   alert('not added');
+                // }
               }}
               onReset={() => {
                 // Reset form values
@@ -206,8 +222,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                               console.log(newContent);
                               setPostContent(newContent);
                             }}
+                            // onBlur={field.onBlur}
                             modules={modules}
                             formats={formats}
+                            // {...field}
                           />
                           <FormErrorMessage>
                             {form.errors.post}
@@ -223,7 +241,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                       isLoading={props.isSubmitting}
                       type="submit"
                     >
-                      Create
+                      Update Post
                     </Button>
                   </ModalFooter>
                 </Form>
@@ -236,4 +254,4 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   );
 };
 
-export default CreatePostModal;
+export default UpdatePostModal;

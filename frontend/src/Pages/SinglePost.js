@@ -27,7 +27,9 @@ const SinglePost = () => {
         <Center>
           <VStack spacing={4}>
             <div>
-              <Text fontSize="5xl">{post.title}</Text>
+              <Text fontSize="5xl" mb={4}>
+                {post.title}
+              </Text>
               <Image src="https://bit.ly/2Z4KKcF" alt="Blog image" mb={4} />
               <Text textAlign="left" mb={4}>
                 {' '}
@@ -36,7 +38,7 @@ const SinglePost = () => {
               </Text>
             </div>
             <Center maxW="800px">
-              <div>{post.content}</div>
+              <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
             </Center>
           </VStack>
         </Center>

@@ -62,7 +62,7 @@ const Homepage = () => {
             >
               <Box
                 position="absolute"
-                top={index === 0 ? 350 : 250}
+                top={index === 0 ? 350 : 200}
                 left={30}
                 maxW={index === 0 ? '800px' : '600px'}
                 // fontSize={index === 0 ? '200px' : '3xl'}
@@ -72,6 +72,7 @@ const Homepage = () => {
                     as="b"
                     fontSize={index === 0 ? '8xl' : '3xl'}
                     textAlign="left"
+                    lineHeight={index === 0 ? '1' : '2'}
                   >
                     {post.title}
                   </Text>
