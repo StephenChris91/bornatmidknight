@@ -1,16 +1,28 @@
+import { useState, useEffect } from 'react';
+
 import Navbar from '../components/Navbar';
 import Post from '../components/Post';
 import { HStack } from '@chakra-ui/react';
 
 const PostBoard = () => {
+  const [posts, setPosts] = useState([]);
+  async function getPosts() {
+    const response = await fetch('http://localhost:4000/posts');
+    const data = await response.json();
+    setPosts(data);
+    console.log(data);
+  }
+
+  useEffect(() => {
+    // const post = fetch('http://localhost:4000/posts')
+    getPosts();
+  }, []);
   return (
     <>
       <Navbar />
       <HStack p={8} flexWrap="wrap">
-        <Post />
-        {[1, 2, 3, 4, 5].map(post => (
-          <Post />
-        ))}
+        {/* <Post /> */}
+        {posts && posts.map(post => <Post postData={post} />)}
       </HStack>
     </>
   );

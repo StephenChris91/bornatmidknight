@@ -195,6 +195,10 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                           isInvalid={form.errors.post && form.touched.post}
                         >
                           <FormLabel>Post</FormLabel>
+                          <div
+                            className="quill-editor"
+                            dangerouslySetInnerHTML={{ __html: postContent }}
+                          ></div>
                           <ReactQuill
                             theme="snow"
                             value={postContent}

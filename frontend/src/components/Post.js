@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Heading,
@@ -9,10 +9,16 @@ import {
   useColorModeValue,
   HStack,
 } from '@chakra-ui/react';
+import { Link, useNavigate } from 'react-router-dom';
 import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
 
-export default function Post() {
+export default function Post({ postData }) {
   const [liked, setLiked] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
+
+  const { title, summary, category, _id } = postData;
+  // console.log(postData);
 
   return (
     <Center py={6}>
@@ -49,15 +55,14 @@ export default function Post() {
             mb={2}
           >
             <Text fontSize={'xs'} fontWeight="medium">
-              React
+              {category}
             </Text>
           </Box>
           <Heading color={'black'} fontSize={'2xl'} noOfLines={1}>
-            React v18.0
+            {title}
           </Heading>
-          <Text color={'gray.500'} noOfLines={2}>
-            In this post, we will give an overview of what is new in React 18,
-            and what it means for the future.
+          <Text color={'gray.500'} noOfLines={2} S>
+            {summary}
           </Text>
         </Box>
         <HStack borderTop={'1px'} color="black">
@@ -69,9 +74,15 @@ export default function Post() {
             cursor={'pointer'}
             w="full"
           >
-            <Text fontSize={'md'} fontWeight={'semibold'}>
+            {/* <Link to={`/all-posts/${_id}`}> */}
+            <Text
+              fontSize={'md'}
+              fontWeight={'semibold'}
+              onClick={() => navigate(`/all-posts/${_id}`)}
+            >
               View more
             </Text>
+            {/* </Link> */}
             <BsArrowUpRight />
           </Flex>
           <Flex
