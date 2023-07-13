@@ -12,7 +12,7 @@ const PostBoard = () => {
     const response = await fetch('http://localhost:4000/posts');
     const data = await response.json();
     setAdminPost(data);
-    console.log(data);
+    // console.log(data);
   }
 
   useEffect(() => {

@@ -33,10 +33,17 @@ const UpdatePostModal = ({ isOpen, onClose, id }) => {
       const response = await fetch(`http://localhost:4000/post/${id}`);
       const data = await response.json();
       setPost(data);
+      setPostContent(data.content);
+      console.log(post.content);
+      console.log(data);
     };
 
     getPost();
   }, []);
+
+  const handlePostChange = newValue => {
+    setPostContent(newValue);
+  };
 
   const modules = {
     toolbar: [
@@ -78,35 +85,42 @@ const UpdatePostModal = ({ isOpen, onClose, id }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Update Post {id}</ModalHeader>
+          <ModalHeader>Update Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Formik
               initialValues={{
-                title: post.title,
-                summary: post.summary,
-                image: post.image,
-                date: post.date,
-                category: post.category,
-                // postContent: null,
+                title: post.title || '',
+                summary: post.summary || '',
+                image: post.image || '',
+                date: post.date || '',
+                category: post.category || '',
+                // postContent: post.content || '',
               }}
               onSubmit={async (values, actions) => {
-                console.log(values);
+                // let updatedContent = post.content;
+                try {
+                  const data = { ...values, postContent, id: post._id };
+                  // Make the API call to update the post
+                  const response = await fetch(`http://localhost:4000/post/`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                  });
 
-                // const data = { ...values, postContent };
-                // console.log(data);
-                // const response = await fetch('http://localhost:4000/post', {
-                //   method: 'POST',
-                //   body: JSON.stringify(data),
-                //   headers: { 'Content-Type': 'application/json' },
-                // });
-                // actions.setSubmitting(false);
+                  if (response.ok) {
+                    alert('Post updated successfully');
+                    console.log(data);
+                    onClose(); // Close the modal after successful update
+                  } else {
+                    alert('Failed to update post');
+                  }
+                } catch (error) {
+                  console.error(error);
+                  alert('An error occurred while updating the post');
+                }
 
-                // if (response.ok) {
-                //   alert('added successfully');
-                // } else {
-                //   alert('not added');
-                // }
+                actions.setSubmitting(false);
               }}
               onReset={() => {
                 // Reset form values
@@ -205,34 +219,16 @@ const UpdatePostModal = ({ isOpen, onClose, id }) => {
                         </FormControl>
                       )}
                     </Field>
-                    <Field name="postContent" validate={validateName}>
-                      {({ field, form }) => (
-                        <FormControl
-                          isInvalid={form.errors.post && form.touched.post}
-                        >
-                          <FormLabel>Post</FormLabel>
-                          {/* <div
-                            className="quill-editor"
-                            dangerouslySetInnerHTML={{ __html: postContent }}
-                          ></div> */}
-                          <ReactQuill
-                            theme="snow"
-                            value={postContent}
-                            onChange={newContent => {
-                              console.log(newContent);
-                              setPostContent(newContent);
-                            }}
-                            // onBlur={field.onBlur}
-                            modules={modules}
-                            formats={formats}
-                            // {...field}
-                          />
-                          <FormErrorMessage>
-                            {form.errors.post}
-                          </FormErrorMessage>
-                        </FormControl>
-                      )}
-                    </Field>
+
+                    <ReactQuill
+                      theme="snow"
+                      value={postContent}
+                      onChange={handlePostChange}
+                      // onBlur={field.onBlur}
+                      modules={modules}
+                      formats={formats}
+                      // {...field}
+                    />
                   </VStack>
                   <ModalFooter>
                     <Button

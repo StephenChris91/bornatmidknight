@@ -22,8 +22,7 @@ const Homepage = () => {
       try {
         const response = await fetch('http://localhost:4000/posts');
         const data = await response.json();
-        // Assuming the fetched data is an array of posts
-        // Sort the posts by date in descending order
+        console.log(data);
         const sortedPosts = data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
@@ -53,7 +52,7 @@ const Homepage = () => {
               key={post._id}
               colSpan={index === 0 ? 2 : 1} // Use colSpan of 2 for the first post, 1 for the rest
               rowSpan={index === 0 ? 2 : 1} // Use colSpan of 2 for the first post, 1 for the rest
-              bg={`url(${bg})`}
+              bg={`url('${post.image}')`}
               backgroundSize="cover"
               backgroundPosition="center"
               borderRadius="md"
