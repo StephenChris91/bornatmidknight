@@ -9,12 +9,14 @@ import {
   GridItem,
   VStack,
   theme,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 import bg from '../components/images/bg.jpg';
 
 const Homepage = () => {
   const [posts, setPosts] = useState([]);
+  const [backgroundImages, setBackgroundImages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +30,11 @@ const Homepage = () => {
         );
         // Set the top 3 most recent posts
         setPosts(sortedPosts.slice(0, 3));
+        // Store the background images in state
+        // const images = sortedPosts.map(
+        //   post => `http://localhost:4000/${post.image}`
+        // );
+        // setBackgroundImages(images);
       } catch (error) {
         console.log('Error fetching posts:', error);
       }
@@ -37,36 +44,37 @@ const Homepage = () => {
   }, []);
 
   return (
-    <>
-      <Box textAlign="center" fontSize="xl">
-        <Navbar />
-        <Grid
-          minH="100vh"
-          p={3}
-          templateRows="repeat(2, 1fr)"
-          templateColumns="repeat(3, 1fr)"
-          gap={4}
-        >
-          {posts.map((post, index) => (
-            <GridItem
-              key={post._id}
-              colSpan={index === 0 ? 2 : 1} // Use colSpan of 2 for the first post, 1 for the rest
-              rowSpan={index === 0 ? 2 : 1} // Use colSpan of 2 for the first post, 1 for the rest
-              bg={`url('${post.image}')`}
+    <Box textAlign="center" fontSize="xl">
+      <Navbar />
+      <Grid
+        minH="100vh"
+        p={3}
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(3, 1fr)"
+        gap={4}
+      >
+        {posts.map((post, index) => (
+          <GridItem
+            key={post._id}
+            colSpan={{ base: 3, md: index === 0 ? 2 : 1 }}
+            rowSpan={{ base: 1, md: index === 0 ? 2 : 1 }}
+          >
+            <Box
+              bgImage={`url("http://localhost:4000/uploads/${post.image}")`}
               backgroundSize="cover"
               backgroundPosition="center"
               borderRadius="md"
               position="relative"
               overflow="hidden"
+              height="100%"
             >
               <Box
                 position="absolute"
                 top={index === 0 ? 350 : 200}
                 left={30}
                 maxW={index === 0 ? '800px' : '600px'}
-                // fontSize={index === 0 ? '200px' : '3xl'}
               >
-                <VStack textAlign="left" alignItems="start">
+                <VStack textAlign="left" alignItems="start" p={4}>
                   <Text
                     as="b"
                     fontSize={index === 0 ? '8xl' : '3xl'}
@@ -84,11 +92,11 @@ const Homepage = () => {
                   </Button>
                 </VStack>
               </Box>
-            </GridItem>
-          ))}
-        </Grid>
-      </Box>
-    </>
+            </Box>
+          </GridItem>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

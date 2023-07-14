@@ -17,7 +17,7 @@ export default function Post({ postData }) {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
-  const { title, summary, category, _id } = postData;
+  const { title, summary, category, _id, image } = postData;
   // console.log(postData);
 
   return (
@@ -35,9 +35,7 @@ export default function Post({ postData }) {
       >
         <Box h={'200px'} borderBottom={'1px'} borderColor="black">
           <Img
-            src={
-              'https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'
-            }
+            src={'http://localhost:4000/' + image}
             roundedTop={'sm'}
             objectFit="cover"
             h="full"

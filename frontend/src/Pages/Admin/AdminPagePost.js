@@ -37,7 +37,7 @@ export default function AdminPost({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image src={`${image}`} layout={'fill'} />
+            <Image src={'http://localhost:4000/' + image} layout={'fill'} />
           </Box>
           <Stack>
             <Text
