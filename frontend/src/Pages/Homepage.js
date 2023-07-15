@@ -12,11 +12,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
-import bg from '../components/images/bg.jpg';
 
 const Homepage = () => {
   const [posts, setPosts] = useState([]);
-  const [backgroundImages, setBackgroundImages] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,11 +28,6 @@ const Homepage = () => {
         );
         // Set the top 3 most recent posts
         setPosts(sortedPosts.slice(0, 3));
-        // Store the background images in state
-        // const images = sortedPosts.map(
-        //   post => `http://localhost:4000/${post.image}`
-        // );
-        // setBackgroundImages(images);
       } catch (error) {
         console.log('Error fetching posts:', error);
       }
@@ -58,28 +51,52 @@ const Homepage = () => {
             key={post._id}
             colSpan={{ base: 3, md: index === 0 ? 2 : 1 }}
             rowSpan={{ base: 1, md: index === 0 ? 2 : 1 }}
+            position="relative"
+            overflow="hidden"
+            borderRadius="md"
           >
             <Box
               bgImage={`url("http://localhost:4000/uploads/${post.image}")`}
               backgroundSize="cover"
               backgroundPosition="center"
-              borderRadius="md"
-              position="relative"
-              overflow="hidden"
               height="100%"
+              _before={{
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                zIndex: 1,
+              }}
             >
               <Box
                 position="absolute"
-                top={index === 0 ? 350 : 200}
+                top={index === 0 ? 350 : 150}
                 left={30}
                 maxW={index === 0 ? '800px' : '600px'}
+                zIndex={2}
               >
-                <VStack textAlign="left" alignItems="start" p={4}>
+                <VStack textAlign="left" alignItems="start" p={4} spacing={4}>
+                  <Text
+                    backgroundColor="green"
+                    p={1}
+                    color="#fff"
+                    fontWeight="bold"
+                    textTransform="uppercase"
+                    borderRadius="sm"
+                    mb="-5px"
+                  >
+                    {post.category}
+                  </Text>
                   <Text
                     as="b"
                     fontSize={index === 0 ? '8xl' : '3xl'}
                     textAlign="left"
                     lineHeight={index === 0 ? '1' : '2'}
+                    color="white"
+                    mb={index === 0 ? 4 : -6}
                   >
                     {post.title}
                   </Text>

@@ -9,13 +9,49 @@ import {
   useColorModeValue,
   Image,
 } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
 
 import { FiEdit } from 'react-icons/fi';
+import { FaTrash } from 'react-icons/fa';
 import UpdatePostModal from '../../components/UpdatePostModal';
 
 export default function AdminPost({ postData }) {
   const { title, summary, category, _id, content, image } = postData;
   const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const confirmDelete = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to delete this post. This action is not reversible',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
+      if (result.isConfirmed) {
+        DeletePost(_id);
+      }
+    });
+  };
+
+  const DeletePost = async id => {
+    try {
+      const response = await fetch(`http://localhost:4000/post/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        Swal.fire('Deleted!', 'The post has been deleted.', 'success');
+        // Perform any necessary actions after successful deletion
+      } else {
+        Swal.fire('Failed!', 'Failed to delete the post.', 'error');
+        // Handle the error or show an error message
+      }
+    } catch (error) {
+      Swal('Error!', 'An error occurred while deleting the post.', 'error');
+      // Handle the error or show an error message
+    }
+  };
 
   return (
     <>
@@ -37,7 +73,7 @@ export default function AdminPost({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image src={'http://localhost:4000/' + image} layout={'fill'} />
+            <Image src={'http://localhost:4000/uploads/' + image} layout={'fill'} h={'300px'}/>
           </Box>
           <Stack>
             <Text
@@ -59,7 +95,8 @@ export default function AdminPost({ postData }) {
             <Text color={'gray.500'}>{summary}</Text>
           </Stack>
           <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-            <FiEdit onClick={onOpen} />
+            <FiEdit onClick={onOpen} cursor={'pointer'} />{' '}
+            <FaTrash onClick={confirmDelete} cursor={'pointer'} />
           </Stack>
         </Box>
       </Center>
