@@ -13,6 +13,7 @@ import {
   Flex,
   Stack,
   useBreakpointValue,
+  Badge,
 } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 
@@ -80,11 +81,14 @@ const Homepage = () => {
                   align={'flex-start'}
                   spacing={6}
                   position="absolute"
-                  top={index === 0 ? 450 : 150}
+                  top={index === 0 ? 350 : 200}
                   left={30}
                   maxW={index === 0 ? '800px' : '600px'}
                   zIndex={2}
                 >
+                  <Badge variant="subtle" colorScheme="green">
+                    {post.category}
+                  </Badge>
                   <Text
                     fontWeight={700}
                     as="b"
@@ -93,6 +97,7 @@ const Homepage = () => {
                     lineHeight={index === 0 ? '1' : '2'}
                     color="white"
                     mb={index === 0 ? 4 : -6}
+                    mt={-6}
                   >
                     {post.title}
                   </Text>

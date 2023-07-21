@@ -27,7 +27,7 @@ const SinglePost = () => {
         <Center>
           <VStack spacing={4}>
             <div>
-              <Text fontSize="5xl" mb={4}>
+              <Text fontSize="5xl" mb={4} textAlign={'center'}>
                 {post.title}
               </Text>
               <Image
@@ -35,13 +35,13 @@ const SinglePost = () => {
                 alt="Blog image"
                 mb={4}
               />
-              <Text textAlign="left" mb={4}>
+              <Text textAlign="center" mb={4}>
                 {' '}
                 Published: {dateObj.toLocaleDateString('en-UK')} |{' '}
                 {dateObj.toLocaleTimeString('en-US')}
               </Text>
             </div>
-            <Center maxW="800px">
+            <Center maxW="800px" fontSize={'20px'}>
               <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
             </Center>
           </VStack>

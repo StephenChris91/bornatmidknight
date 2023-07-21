@@ -1,105 +1,87 @@
-import { useState, useEffect } from 'react';
+// import Image from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
+  Center,
   Heading,
   Text,
-  Img,
-  Flex,
-  Center,
+  Stack,
   useColorModeValue,
-  HStack,
+  Image,
+  Badge,
+  Button,
 } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { BsArrowUpRight, BsHeartFill, BsHeart } from 'react-icons/bs';
+import Swal from 'sweetalert2';
+
+import { FiEdit } from 'react-icons/fi';
+import { FaTrash } from 'react-icons/fa';
+// import UpdatePostModal from '../../components/UpdatePostModal';
 
 export default function Post({ postData }) {
-  const [liked, setLiked] = useState(false);
-  const [posts, setPosts] = useState([]);
+  const { title, summary, category, _id, content, image } = postData;
+  // const { isOpen, onClose, onOpen } = useDisclosure();
+
   const navigate = useNavigate();
 
-  const { title, summary, category, _id, image } = postData;
-  // console.log(postData);
-
   return (
-    <Center py={6}>
-      <Box
-        w="xs"
-        rounded={'sm'}
-        my={5}
-        mx={[0, 5]}
-        overflow={'hidden'}
-        bg="white"
-        border={'1px'}
-        borderColor="black"
-        boxShadow={useColorModeValue('6px 6px 0 black', '6px 6px 0 cyan')}
-      >
-        <Box h={'200px'} borderBottom={'1px'} borderColor="black">
-          <Img
-            src={'http://localhost:4000/' + image}
-            roundedTop={'sm'}
-            objectFit="cover"
-            h="full"
-            w="full"
-            alt={'Blog Image'}
-          />
-        </Box>
-        <Box p={4}>
+    <>
+      <Center p={4}>
+        <Box
+          maxW={'500px'}
+          w={'full'}
+          bg={useColorModeValue('white', 'gray.900')}
+          // boxShadow={'2xl'}
+          rounded={'md'}
+          p={6}
+          overflow={'hidden'}
+        >
           <Box
-            bg="black"
-            display={'inline-block'}
-            px={2}
-            py={1}
-            color="white"
-            mb={2}
+            h={'full'}
+            bg={'gray.100'}
+            mt={-6}
+            mx={-6}
+            mb={6}
+            pos={'relative'}
           >
-            <Text fontSize={'xs'} fontWeight="medium">
-              {category}
-            </Text>
+            <Image
+              src={'http://localhost:4000/' + image}
+              layout={'fill'}
+              h={'300px'}
+            />
           </Box>
-          <Heading color={'black'} fontSize={'2xl'} noOfLines={1}>
-            {title}
-          </Heading>
-          <Text color={'gray.500'} noOfLines={2} S>
-            {summary}
-          </Text>
-        </Box>
-        <HStack borderTop={'1px'} color="black">
-          <Flex
-            p={4}
-            alignItems="center"
-            justifyContent={'space-between'}
-            roundedBottom={'sm'}
-            cursor={'pointer'}
-            w="full"
-          >
-            {/* <Link to={`/all-posts/${_id}`}> */}
-            <Text
-              fontSize={'md'}
-              fontWeight={'semibold'}
-              onClick={() => navigate(`/all-posts/${_id}`)}
+          <Stack>
+            <Badge
+              variant="subtle"
+              colorScheme="green"
+              display={'inline'}
+              w={'auto'}
             >
-              View more
-            </Text>
-            {/* </Link> */}
-            <BsArrowUpRight />
-          </Flex>
-          <Flex
-            p={4}
-            alignItems="center"
-            justifyContent={'space-between'}
-            roundedBottom={'sm'}
-            borderLeft={'1px'}
-            cursor="pointer"
-            onClick={() => setLiked(!liked)}
-          >
-            {liked ? (
-              <BsHeartFill fill="red" fontSize={'24px'} />
-            ) : (
-              <BsHeart fontSize={'24px'} />
-            )}
-          </Flex>
-        </HStack>
-      </Box>
-    </Center>
+              {category}
+            </Badge>
+            <Heading
+              color={useColorModeValue('gray.700', 'white')}
+              fontSize={'2xl'}
+              fontFamily={'body'}
+            >
+              {title}
+            </Heading>
+            <Text color={'gray.500'}>{summary}</Text>
+          </Stack>
+          <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+            <Button
+              bg={'transparent'}
+              // rounded={'full'}
+              color={useColorModeValue('gray.700', 'white')}
+              variant="outline"
+              onClick={() => navigate(`/all-posts/${_id}`)}
+              _hover={{ bg: 'green.500' }}
+            >
+              Read More
+            </Button>
+          </Stack>
+        </Box>
+      </Center>
+      {/* <UpdatePostModal isOpen={isOpen} onClose={onClose} id={_id} /> */}
+    </>
   );
 }
