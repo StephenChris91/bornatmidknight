@@ -19,7 +19,7 @@ db.connect(
 );
 
 // Create a storage engine for multer
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: "uploads" });
 
 // const upload = multer({ storage });
 
@@ -32,9 +32,10 @@ app.post("/post", upload.single("image"), async (req, res) => {
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
     const newPath = path + "." + ext;
+    const img = newPath.slice(8);
     fs.renameSync(path, newPath);
     // Now imagePath (newPath in this case) can be used in the database
-    console.log(newPath);
+    console.log(img);
 
     try {
       const newPostRef = await Post.create({
@@ -43,7 +44,8 @@ app.post("/post", upload.single("image"), async (req, res) => {
         content: postContent,
         category,
         date,
-        image: newPath, // Assuming you want to use the updated newPath here
+        cover: img, // Assuming you want to use the updated newPath here
+        image: newPath
       });
 
       res.json(newPostRef);

@@ -8,6 +8,7 @@ const PostSchema = new Schema(
     summary: { type: String },
     content: { type: String },
     image: { type: String },
+    cover: { type: String },
     category: { type: String },
     date: { type: Date, default: Date.now },
   },

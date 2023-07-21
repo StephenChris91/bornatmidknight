@@ -65,7 +65,7 @@ const Homepage = () => {
               w={'full'}
               // h={'100vh'}
               h={'100%'}
-              backgroundImage={`url(http://localhost:4000/${post.image})`}
+              backgroundImage={`url(http://localhost:4000/uploads/${post.cover})`}
               backgroundSize={'cover'}
               backgroundPosition={'center center'}
             >
@@ -80,16 +80,13 @@ const Homepage = () => {
                   align={'flex-start'}
                   spacing={6}
                   position="absolute"
-                  top={index === 0 ? 350 : 150}
+                  top={index === 0 ? 450 : 150}
                   left={30}
                   maxW={index === 0 ? '800px' : '600px'}
                   zIndex={2}
                 >
                   <Text
-                    // color={'white'}
                     fontWeight={700}
-                    // lineHeight={1.2}
-                    // fontSize={breakpointValue}
                     as="b"
                     fontSize={index === 0 ? '8xl' : '3xl'}
                     textAlign="left"
@@ -106,7 +103,7 @@ const Homepage = () => {
                       color={'white'}
                       variant="outline"
                       onClick={() => navigate(`/all-posts/${post._id}`)}
-                      _hover={{ bg: 'blue.500' }}
+                      _hover={{ bg: 'green.500' }}
                     >
                       Read More
                     </Button>
