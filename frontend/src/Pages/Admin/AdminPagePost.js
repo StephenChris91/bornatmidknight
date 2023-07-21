@@ -73,7 +73,7 @@ export default function AdminPost({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image src={'http://localhost:4000/uploads/' + image} layout={'fill'} h={'300px'}/>
+            <Image src={'http://localhost:4000/' + image} layout={'fill'} h={'300px'}/>
           </Box>
           <Stack>
             <Text

@@ -10,6 +10,9 @@ import {
   VStack,
   theme,
   useColorModeValue,
+  Flex,
+  Stack,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 
@@ -36,6 +39,9 @@ const Homepage = () => {
     fetchPosts();
   }, []);
 
+  // Get the breakpoint value outside the callback function
+  const breakpointValue = useBreakpointValue({ base: 4, md: 8 });
+
   return (
     <Box textAlign="center" fontSize="xl">
       <Navbar />
@@ -55,42 +61,35 @@ const Homepage = () => {
             overflow="hidden"
             borderRadius="md"
           >
-            <Box
-              bgImage={`url("http://localhost:4000/uploads/${post.image}")`}
-              backgroundSize="cover"
-              backgroundPosition="center"
-              height="100%"
-              _before={{
-                content: '""',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                zIndex: 1,
-              }}
+            <Flex
+              w={'full'}
+              // h={'100vh'}
+              h={'100%'}
+              backgroundImage={`url(http://localhost:4000/${post.image})`}
+              backgroundSize={'cover'}
+              backgroundPosition={'center center'}
             >
-              <Box
-                position="absolute"
-                top={index === 0 ? 350 : 150}
-                left={30}
-                maxW={index === 0 ? '800px' : '600px'}
-                zIndex={2}
+              <VStack
+                w={'full'}
+                justify={'center'}
+                px={breakpointValue}
+                bgGradient={'linear(to-t, blackAlpha.600, transparent)'}
               >
-                <VStack textAlign="left" alignItems="start" p={4} spacing={4}>
+                <Stack
+                  // maxW={'2xl'}
+                  align={'flex-start'}
+                  spacing={6}
+                  position="absolute"
+                  top={index === 0 ? 350 : 150}
+                  left={30}
+                  maxW={index === 0 ? '800px' : '600px'}
+                  zIndex={2}
+                >
                   <Text
-                    backgroundColor="green"
-                    p={1}
-                    color="#fff"
-                    fontWeight="bold"
-                    textTransform="uppercase"
-                    borderRadius="sm"
-                    mb="-5px"
-                  >
-                    {post.category}
-                  </Text>
-                  <Text
+                    // color={'white'}
+                    fontWeight={700}
+                    // lineHeight={1.2}
+                    // fontSize={breakpointValue}
                     as="b"
                     fontSize={index === 0 ? '8xl' : '3xl'}
                     textAlign="left"
@@ -100,16 +99,21 @@ const Homepage = () => {
                   >
                     {post.title}
                   </Text>
-                  <Button
-                    colorScheme="white"
-                    variant="outline"
-                    onClick={() => navigate(`/all-posts/${post._id}`)}
-                  >
-                    Read More...
-                  </Button>
-                </VStack>
-              </Box>
-            </Box>
+                  <Stack direction={'row'}>
+                    <Button
+                      bg={'transparent'}
+                      // rounded={'full'}
+                      color={'white'}
+                      variant="outline"
+                      onClick={() => navigate(`/all-posts/${post._id}`)}
+                      _hover={{ bg: 'blue.500' }}
+                    >
+                      Read More
+                    </Button>
+                  </Stack>
+                </Stack>
+              </VStack>
+            </Flex>
           </GridItem>
         ))}
       </Grid>

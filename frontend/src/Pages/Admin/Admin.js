@@ -18,7 +18,7 @@ const PostBoard = () => {
   useEffect(() => {
     // const post = fetch('http://localhost:4000/posts')
     getPosts();
-  }, [adminPost]);
+  }, []);
   return (
     <>
       <AdminNav />

@@ -4,11 +4,12 @@ const Post = require("./models/Post");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const multer = require("multer");
-const path = require("path");
+// const path = require("path");
+const fs = require("fs");
 
 const app = express();
 app.use(cors());
-app.use("/uploads/", express.static(path.join(__dirname, "/uploads/")));
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // Add body parser middleware
 app.use(bodyParser.json());
@@ -18,38 +19,40 @@ db.connect(
 );
 
 // Create a storage engine for multer
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Set the destination folder for uploaded files
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname); // Use the original filename for the uploaded file
-  },
-});
+const upload = multer({ dest: "uploads/" });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 app.post("/post", upload.single("image"), async (req, res) => {
   const { title, summary, postContent, category, date } = req.body;
-  const imagePath = req.file.filename;
-  console.log(imagePath);
 
-  try {
-    const newPostRef = await Post.create({
-      title,
-      summary,
-      content: postContent,
-      category,
-      date,
-      image: imagePath,
-    });
+  // Check if a file was uploaded before accessing its properties
+  if (req.file) {
+    const { originalname, path } = req.file;
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    const newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+    // Now imagePath (newPath in this case) can be used in the database
+    console.log(newPath);
 
-    res.json(newPostRef);
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the post" });
+    try {
+      const newPostRef = await Post.create({
+        title,
+        summary,
+        content: postContent,
+        category,
+        date,
+        image: newPath, // Assuming you want to use the updated newPath here
+      });
+
+      res.json(newPostRef);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ error: "An error occurred while creating the post" });
+    }
   }
 });
 

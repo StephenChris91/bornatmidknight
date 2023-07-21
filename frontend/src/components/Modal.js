@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import {
   Modal,
@@ -54,29 +53,37 @@ const CreatePostModal = ({ isOpen, onClose }) => {
 
   const FileInput = ({ field, form, ...props }) => {
     const handleChange = event => {
-      form.setFieldValue(field.name, event.currentTarget.files[0]);
+      console.log(event.target.files[0]);
+      form.setFieldValue(field.name, event.target.files[0]);
     };
 
-    return <Input {...props} type="file" p={1} onChange={handleChange} />;
+    return (
+      <Input
+        {...props}
+        type="file"
+        p={1}
+        onChange={handleChange}
+        // name="image"
+      />
+    );
   };
 
   const validateName = value => {
     // validation logic
   };
 
-  const handleImageUpload = (e, form) => {
-    const file = e.target.files[0];
-    form.setFieldValue('image', file);
-  };
+  // const handleImageUpload = (e, form) => {
+  //   const file = e.target.files[0];
+  //   form.setFieldValue('image', file);
+  // };
 
   const handleSubmit = async (values, actions) => {
     const formData = new FormData();
-    formData.append('title', values.title);
-    formData.append('summary', values.summary);
-    formData.append('postContent', postContent);
-    formData.append('category', values.category);
-    formData.append('date', values.date);
-    formData.append('image', values.image);
+    formData.set('title', values.title);
+    formData.set('summary', values.summary);
+    formData.set('postContent', postContent);
+    formData.set('category', values.category);
+    formData.set('image', values.image);
 
     try {
       const response = await axios.post(

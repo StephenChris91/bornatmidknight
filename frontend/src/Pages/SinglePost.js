@@ -30,7 +30,11 @@ const SinglePost = () => {
               <Text fontSize="5xl" mb={4}>
                 {post.title}
               </Text>
-              <Image src="https://bit.ly/2Z4KKcF" alt="Blog image" mb={4} />
+              <Image
+                src={'http://localhost:4000/' + post.image}
+                alt="Blog image"
+                mb={4}
+              />
               <Text textAlign="left" mb={4}>
                 {' '}
                 Published: {dateObj.toLocaleDateString('en-UK')} |{' '}
