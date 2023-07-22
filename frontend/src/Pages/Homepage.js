@@ -81,14 +81,26 @@ const Homepage = () => {
                   align={'flex-start'}
                   spacing={6}
                   position="absolute"
-                  top={index === 0 ? 350 : 200}
+                  top={index === 0 ? 300 : 100}
                   left={30}
                   maxW={index === 0 ? '800px' : '600px'}
                   zIndex={2}
                 >
-                  <Badge variant="subtle" colorScheme="green">
-                    {post.category}
-                  </Badge>
+                  <span>
+                    <Badge variant="solid" colorScheme="yellow" mb={-28}>
+                      {index === 0 ? 'Latest Post' : ''}
+                    </Badge>
+                  </span>
+                  <span>
+                    <Badge
+                      variant="subtle"
+                      colorScheme="green"
+                      mt={10}
+                      // mb={-2}
+                    >
+                      {post.category}
+                    </Badge>
+                  </span>
                   <Text
                     fontWeight={700}
                     as="b"

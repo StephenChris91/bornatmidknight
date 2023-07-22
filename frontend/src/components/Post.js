@@ -18,14 +18,14 @@ import { FaTrash } from 'react-icons/fa';
 // import UpdatePostModal from '../../components/UpdatePostModal';
 
 export default function Post({ postData }) {
-  const { title, summary, category, _id, content, image } = postData;
+  const { title, summary, category, _id, image } = postData;
   // const { isOpen, onClose, onOpen } = useDisclosure();
 
   const navigate = useNavigate();
 
   return (
     <>
-      <Center p={4}>
+      <Center p={2} m={'auto'}>
         <Box
           maxW={'500px'}
           w={'full'}
@@ -49,15 +49,10 @@ export default function Post({ postData }) {
               h={'300px'}
             />
           </Box>
+          <Badge as={'span'} variant="subtle" colorScheme="green">
+            {category}
+          </Badge>
           <Stack>
-            <Badge
-              variant="subtle"
-              colorScheme="green"
-              display={'inline'}
-              w={'auto'}
-            >
-              {category}
-            </Badge>
             <Heading
               color={useColorModeValue('gray.700', 'white')}
               fontSize={'2xl'}

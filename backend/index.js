@@ -45,7 +45,7 @@ app.post("/post", upload.single("image"), async (req, res) => {
         category,
         date,
         cover: img, // Assuming you want to use the updated newPath here
-        image: newPath
+        image: newPath,
       });
 
       res.json(newPostRef);
