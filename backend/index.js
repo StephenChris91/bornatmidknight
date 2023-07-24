@@ -19,7 +19,7 @@ db.connect(
 );
 
 // Create a storage engine for multer
-const upload = multer({ dest: "uploads" });
+const upload = multer({ dest: "/tmp" });
 
 // const upload = multer({ storage });
 
