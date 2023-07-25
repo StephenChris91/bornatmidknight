@@ -20,6 +20,10 @@ const upload = multer({ dest: "/tmp" });
 
 // const upload = multer({ storage });
 
+app.get("/", (req, res) => {
+  res.send("Hello, this is the backend for my application!");
+});
+
 app.post("/post", upload.single("image"), async (req, res) => {
   db.connect(
     "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
