@@ -42,6 +42,9 @@ const Homepage = () => {
 
   // Get the breakpoint value outside the callback function
   const breakpointValue = useBreakpointValue({ base: 4, md: 8 });
+  const imagePath = process.env.NEXT_PUBLIC_IS_PRODUCTION
+    ? 'http://localhost:4000/tmp/' // Use '/tmp/' for production (Vercel)
+    : 'http://localhost:4000/uploads/'; // Use 'http://localhost:4000/uploads/' for localhost
 
   return (
     <Box textAlign="center" fontSize="xl">
@@ -66,7 +69,7 @@ const Homepage = () => {
               w={'full'}
               // h={'100vh'}
               h={'100%'}
-              backgroundImage={`url(http://localhost:4000/uploads/${post.cover})`}
+              backgroundImage={`url(${imagePath}${post.cover})`}
               backgroundSize={'cover'}
               backgroundPosition={'center center'}
             >
@@ -104,7 +107,11 @@ const Homepage = () => {
                   <Text
                     fontWeight={700}
                     as="b"
-                    fontSize={index === 0 ? '8xl' : '3xl'}
+                    // fontSize={index === 0 ? '8xl' : '3xl'}
+                    fontSize={{
+                      base: index === 0 ? '8xl' : '3xl',
+                      md: index === 0 ? '5xl' : '3xl',
+                    }}
                     textAlign="left"
                     lineHeight={index === 0 ? '1' : '2'}
                     color="white"
