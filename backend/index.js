@@ -14,9 +14,6 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 // Add body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-db.connect(
-  "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
-);
 
 // Create a storage engine for multer
 const upload = multer({ dest: "/tmp" });
@@ -24,6 +21,9 @@ const upload = multer({ dest: "/tmp" });
 // const upload = multer({ storage });
 
 app.post("/post", upload.single("image"), async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   const { title, summary, postContent, category, date } = req.body;
 
   // Check if a file was uploaded before accessing its properties
@@ -59,6 +59,9 @@ app.post("/post", upload.single("image"), async (req, res) => {
 });
 
 app.put("/post", async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   const { id, title, summary, postContent, image } = req.body;
 
   try {
@@ -87,11 +90,17 @@ app.put("/post", async (req, res) => {
 });
 
 app.get("/posts", async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   const post = await Post.find();
   res.send(post);
 });
 
 app.get("/recent", async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   try {
     const posts = await Post.find().sort({ date: -1 }).limit(3);
     res.json(posts);
@@ -101,6 +110,9 @@ app.get("/recent", async (req, res) => {
 });
 
 app.get("/post/:postId", async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   try {
     const postId = req.params.postId;
     const post = await Post.findById(postId);
@@ -117,6 +129,9 @@ app.get("/post/:postId", async (req, res) => {
 
 // DELETE request to delete a specific post
 app.delete("/post/:id", async (req, res) => {
+  db.connect(
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+  );
   try {
     const postId = req.params.id;
 
