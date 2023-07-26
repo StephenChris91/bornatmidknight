@@ -69,7 +69,7 @@ const Homepage = () => {
               w={'full'}
               // h={'100vh'}
               h={'100%'}
-              backgroundImage={`url(${imagePath}${post.cover})`}
+              backgroundImage={post.image}
               backgroundSize={'cover'}
               backgroundPosition={'center center'}
             >

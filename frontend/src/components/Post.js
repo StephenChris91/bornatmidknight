@@ -43,11 +43,7 @@ export default function Post({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image
-              src={'http://localhost:4000/' + image}
-              layout={'fill'}
-              h={'300px'}
-            />
+            <Image src={image} layout={'fill'} h={'300px'} />
           </Box>
           <Badge as={'span'} variant="subtle" colorScheme="green">
             {category}

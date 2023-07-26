@@ -3,7 +3,7 @@ const db = require("mongoose");
 const Post = require("./models/Post");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { S3Client } = require("aws-sdk/clients/s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("fs");
 require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const multer = require("multer");
@@ -11,21 +11,36 @@ const multer = require("multer");
 const app = express();
 app.use(cors());
 app.use("/uploads", express.static(__dirname + "/tmp"));
-
-// Add body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const bucket = "bornatmidknight";
+
 // Create a storage engine for multer
 const upload = multer({ dest: "/tmp" });
-function uploadToS3(path, originalFilename, mimetype) {
+async function uploadToS3(path, originalFilename, mimetype) {
   const client = new S3Client({
     region: "eu-north-1",
     credentials: {
-      accessKey: process.env.S3_ACCESS_KEY,
-      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+      accessKeyId: "AKIA3O5WTWQJAC3ICTGA",
+      secretAccessKey: "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",
     },
   });
+
+  const parts = originalFilename.split(".");
+  const ext = parts[parts.length - 1];
+  const newFilename = Date.now() + "." + ext;
+  const data = await client.send(
+    new PutObjectCommand({
+      Bucket: bucket,
+      Body: fs.readFileSync(path),
+      Key: newFilename,
+      ContentType: mimetype,
+      ACL: "public-read",
+    })
+  );
+  // console.log({ data });
+  return `https://${bucket}.s3.amazonaws.com/${newFilename}`;
 }
 
 // const upload = multer({ storage });
@@ -41,35 +56,32 @@ app.post("/post", upload.single("image"), async (req, res) => {
   const { title, summary, postContent, category, date } = req.body;
 
   // Check if a file was uploaded before accessing its properties
-  if (req.file) {
-    const { originalname, path, mimetype } = req.file;
-    // const parts = originalname.split(".");
-    // const ext = parts[parts.length - 1];
-    // const newPath = path + "." + ext;
-    // const img = newPath.slice(8);
-    // fs.renameSync(path, newPath);
-    uploadToS3(path, originalname, mimetype);
-    // Now imagePath (newPath in this case) can be used in the database
-    console.log(img);
+  const { originalname, path, mimetype } = req.file;
 
-    try {
-      const newPostRef = await Post.create({
-        title,
-        summary,
-        content: postContent,
-        category,
-        date,
-        cover: img, // Assuming you want to use the updated newPath here
-        image: newPath,
-      });
+  // const img = newPath.slice(8);
+  // fs.renameSync(path, newPath);
+  const imageURL = await uploadToS3(path, originalname, mimetype);
+  console.log(imageURL);
+  // Now imagePath (newPath in this case) can be used in the database
+  // console.log(img);
 
-      res.json(newPostRef);
-    } catch (error) {
-      console.error(error);
-      res
-        .status(500)
-        .json({ error: "An error occurred while creating the post" });
-    }
+  try {
+    const newPostRef = await Post.create({
+      title,
+      summary,
+      content: postContent,
+      category,
+      date,
+      // cover: img, // Assuming you want to use the updated newPath here
+      image: imageURL,
+    });
+
+    res.json(newPostRef);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the post" });
   }
 });
 

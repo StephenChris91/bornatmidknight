@@ -77,7 +77,7 @@ export default function AdminPost({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image src={imagePath + image} layout={'fill'} h={'300px'} />
+            <Image src={image} layout={'fill'} h={'300px'} />
           </Box>
           <Stack>
             <Text
