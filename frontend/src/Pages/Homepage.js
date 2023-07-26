@@ -66,51 +66,52 @@ const Homepage = () => {
             borderRadius="md"
           >
             <Flex
-              w={'full'}
-              // h={'100vh'}
-              h={'100%'}
+              w="full"
+              h={index === 0 ? '100%' : '100%'}
               backgroundImage={post.image}
-              backgroundSize={'cover'}
-              backgroundPosition={'center center'}
+              backgroundSize="cover"
+              backgroundPosition="center center"
             >
               <VStack
-                w={'full'}
-                justify={'center'}
+                w="full"
+                justify="center"
                 px={breakpointValue}
-                bgGradient={'linear(to-t, blackAlpha.600, transparent)'}
+                bgGradient="linear(to-t, blackAlpha.600, transparent)"
+                h={index === 0 ? '100%' : 'auto'} // Updated height for mobile
               >
                 <Stack
-                  // maxW={'2xl'}
-                  align={'flex-start'}
+                  align="flex-start"
                   spacing={6}
                   position="absolute"
-                  top={index === 0 ? 300 : 100}
+                  // top={index === 0 ? '50%' : '30%'}
+                  top={{
+                    base: index === 0 ? '30%' : '40%',
+                    md: index === 0 ? '30%' : '30%',
+                    lg: index === 0 ? '60%' : '30%',
+                  }}
                   left={30}
                   maxW={index === 0 ? '800px' : '600px'}
                   zIndex={2}
                 >
+                  {index === 0 && (
+                    <span>
+                      <Badge variant="solid" colorScheme="yellow" mb={-28}>
+                        Latest Post
+                      </Badge>
+                    </span>
+                  )}
                   <span>
-                    <Badge variant="solid" colorScheme="yellow" mb={-28}>
-                      {index === 0 ? 'Latest Post' : ''}
-                    </Badge>
-                  </span>
-                  <span>
-                    <Badge
-                      variant="subtle"
-                      colorScheme="green"
-                      mt={10}
-                      // mb={-2}
-                    >
+                    <Badge variant="subtle" colorScheme="green" mt={10}>
                       {post.category}
                     </Badge>
                   </span>
                   <Text
                     fontWeight={700}
                     as="b"
-                    // fontSize={index === 0 ? '8xl' : '3xl'}
                     fontSize={{
-                      base: index === 0 ? '8xl' : '3xl',
+                      base: '3xl',
                       md: index === 0 ? '5xl' : '3xl',
+                      lg: index === 0 ? '6xl' : '4xl',
                     }}
                     textAlign="left"
                     lineHeight={index === 0 ? '1' : '2'}
@@ -120,14 +121,14 @@ const Homepage = () => {
                   >
                     {post.title}
                   </Text>
-                  <Stack direction={'row'}>
+                  <Stack direction="row">
                     <Button
-                      bg={'transparent'}
-                      // rounded={'full'}
-                      color={'white'}
+                      bg="transparent"
+                      color="white"
                       variant="outline"
                       onClick={() => navigate(`/all-posts/${post._id}`)}
                       _hover={{ bg: 'green.500' }}
+                      size={breakpointValue === 8 ? 'lg' : 'md'} // Adjust button size for mobile
                     >
                       Read More
                     </Button>
