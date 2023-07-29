@@ -12,7 +12,7 @@ const app = express();
 // app.use(cors());
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://www.bornatmidknight.com/",
+  "https://www.bornatmidknight.com",
 ];
 app.use(
   cors({
@@ -126,18 +126,23 @@ app.put("/post", async (req, res) => {
 });
 
 app.get("/posts", async (req, res) => {
-  db.connect(
-    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // Set maxTimeMS to a higher value (e.g., 30 seconds)
-      // if you have a legitimate reason for longer query times.
-      maxTimeMS: 30000, // 30 seconds
-    }
-  );
-  const post = await Post.find();
-  res.send(post);
+  try {
+    await db.connect(
+      "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority",
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        // Set maxTimeMS to a higher value (e.g., 30 seconds)
+        // if you have a legitimate reason for longer query times.
+        maxTimeMS: 30000, // 30 seconds
+      }
+    );
+    const posts = await Post.find();
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 app.get("/recent", async (req, res) => {
