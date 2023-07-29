@@ -9,7 +9,20 @@ require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const multer = require("multer");
 
 const app = express();
-app.use(cors());
+// app.use(cors());
+const allowedOrigins = ["http://localhost:3000", "https://bornatmidknight.com"];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 app.use("/uploads", express.static(__dirname + "/tmp"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,13 +70,8 @@ app.post("/post", upload.single("image"), async (req, res) => {
 
   // Check if a file was uploaded before accessing its properties
   const { originalname, path, mimetype } = req.file;
-
-  // const img = newPath.slice(8);
-  // fs.renameSync(path, newPath);
   const imageURL = await uploadToS3(path, originalname, mimetype);
   console.log(imageURL);
-  // Now imagePath (newPath in this case) can be used in the database
-  // console.log(img);
 
   try {
     const newPostRef = await Post.create({
@@ -79,9 +87,7 @@ app.post("/post", upload.single("image"), async (req, res) => {
     res.json(newPostRef);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the post" });
+    res.status(500).json({ error: "Oops! Failed to create Post" });
   }
 });
 
@@ -118,7 +124,14 @@ app.put("/post", async (req, res) => {
 
 app.get("/posts", async (req, res) => {
   db.connect(
-    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://bornatmidknight:bornatmidknight@bornatmidknight.b4af7xi.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      // Set maxTimeMS to a higher value (e.g., 30 seconds)
+      // if you have a legitimate reason for longer query times.
+      maxTimeMS: 30000, // 30 seconds
+    }
   );
   const post = await Post.find();
   res.send(post);
