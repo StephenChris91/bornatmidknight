@@ -10,7 +10,10 @@ const multer = require("multer");
 
 const app = express();
 // app.use(cors());
-const allowedOrigins = ["http://localhost:3000", "https://bornatmidknight.com"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://www.bornatmidknight.com/",
+];
 app.use(
   cors({
     origin: (origin, callback) => {
