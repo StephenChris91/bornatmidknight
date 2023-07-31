@@ -7,7 +7,7 @@ import { HStack } from '@chakra-ui/react';
 const PostBoard = () => {
   const [posts, setPosts] = useState([]);
   async function getPosts() {
-    const response = await fetch('http://localhost:4000/posts');
+    const response = await fetch('https://bornatmidknight.vercel.app/posts');
     const data = await response.json();
     setPosts(data);
     console.log(data);

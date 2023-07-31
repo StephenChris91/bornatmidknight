@@ -88,7 +88,7 @@ const CreatePostModal = ({ isOpen, onClose, handlePostAdded }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:4000/post',
+        'https://bornatmidknight.vercel.app/post',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },

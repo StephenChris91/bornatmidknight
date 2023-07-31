@@ -102,11 +102,14 @@ const UpdatePostModal = ({ isOpen, onClose, id }) => {
                 try {
                   const data = { ...values, postContent, id: post._id };
                   // Make the API call to update the post
-                  const response = await fetch(`http://localhost:4000/post/`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                  });
+                  const response = await fetch(
+                    'https://bornatmidknight.vercel.app/post',
+                    {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                    }
+                  );
 
                   if (response.ok) {
                     alert('Post updated successfully');

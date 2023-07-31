@@ -10,7 +10,7 @@ const PostBoard = () => {
   const [updateTrigger, setUpdateTrigger] = useState(false); // New state for update trigger
 
   async function fetchPosts() {
-    const response = await fetch('http://localhost:4000/posts');
+    const response = await fetch('https://bornatmidknight.vercel.app/posts');
     const data = await response.json();
     setAdminPost(data);
   }

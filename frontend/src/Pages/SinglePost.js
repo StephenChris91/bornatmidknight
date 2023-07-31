@@ -13,7 +13,9 @@ const SinglePost = () => {
 
   useEffect(() => {
     const getPost = async () => {
-      const response = await fetch(`http://localhost:4000/post/${id}`);
+      const response = await fetch(
+        `https://bornatmidknight.vercel.app/post/${id}`
+      );
       const data = await response.json();
       setPost(data);
     };

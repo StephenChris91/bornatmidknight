@@ -24,7 +24,9 @@ const Homepage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('http://localhost:4000/posts');
+        const response = await fetch(
+          'https://bornatmidknight.vercel.app/posts'
+        );
         const data = await response.json();
         console.log(data);
         const sortedPosts = data.sort(

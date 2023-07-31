@@ -36,9 +36,12 @@ export default function AdminPost({ postData }) {
 
   const DeletePost = async id => {
     try {
-      const response = await fetch(`http://localhost:4000/post/${id}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `https://bornatmidknight.vercel.app/post/${id}`,
+        {
+          method: 'DELETE',
+        }
+      );
       if (response.ok) {
         Swal.fire('Deleted!', 'The post has been deleted.', 'success');
         // Perform any necessary actions after successful deletion
