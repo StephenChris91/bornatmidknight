@@ -10,21 +10,6 @@ const multer = require("multer");
 
 const app = express();
 // app.use(cors());
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://www.bornatmidknight.com",
-];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-  })
-);
 
 app.use("/uploads", express.static(__dirname + "/tmp"));
 app.use(bodyParser.json());

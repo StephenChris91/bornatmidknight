@@ -25,7 +25,7 @@ export default function Post({ postData }) {
 
   return (
     <>
-      <Center p={2} m={'auto'}>
+      <Center p={0} m={'auto'}>
         <Box
           maxW={'500px'}
           w={'full'}
@@ -43,7 +43,7 @@ export default function Post({ postData }) {
             mb={6}
             pos={'relative'}
           >
-            <Image src={image} layout={'fill'} h={'300px'} />
+            <Image src={image} layout={'fill'} h={'auto'} w={'auto'} />
           </Box>
           <Badge as={'span'} variant="subtle" colorScheme="green">
             {category}
@@ -56,7 +56,9 @@ export default function Post({ postData }) {
             >
               {title}
             </Heading>
-            <Text color={'gray.500'}>{summary}</Text>
+            <Text color={'gray.500'} noOfLines={1}>
+              {summary}
+            </Text>
           </Stack>
           <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
             <Button

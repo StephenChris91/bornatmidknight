@@ -16,13 +16,8 @@ import { FaTrash } from 'react-icons/fa';
 import UpdatePostModal from '../../components/UpdatePostModal';
 
 export default function AdminPost({ postData }) {
-  const { title, summary, category, _id, content, image } = postData;
+  const { title, summary, category, _id, image } = postData;
   const { isOpen, onClose, onOpen } = useDisclosure();
-
-  const imagePath = process.env.REACT_PUBLIC_IS_PRODUCTION
-    ? 'tmp/' // Use '/tmp/' for production (Vercel)
-    : 'http://localhost:4000/'; // Use 'http://localhost:4000/uploads/' for localhost
-
   const confirmDelete = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -96,7 +91,9 @@ export default function AdminPost({ postData }) {
             >
               {title}
             </Heading>
-            <Text color={'gray.500'}>{summary}</Text>
+            <Text color={'gray.500'} noOfLines={2}>
+              {summary}
+            </Text>
           </Stack>
           <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
             <FiEdit onClick={onOpen} cursor={'pointer'} />{' '}

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 // import CreatePostModal from '../../components/Modal';
 import CreatePostModal from '../../components/Modal';
 
-const AdminNav = () => {
+const AdminNav = ({handlePostAdded}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -20,7 +20,7 @@ const AdminNav = () => {
           </Box>
         </HStack>
       </Box>
-      <CreatePostModal isOpen={isOpen} onClose={onClose} />
+      <CreatePostModal isOpen={isOpen} onClose={onClose} handlePostAdded={handlePostAdded}/>
     </>
   );
 };

@@ -19,8 +19,9 @@ import { Field, Form, Formik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const CreatePostModal = ({ isOpen, onClose }) => {
+const CreatePostModal = ({ isOpen, onClose, handlePostAdded }) => {
   const [postContent, setPostContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -95,16 +96,44 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       );
 
       if (response.status === 200) {
-        alert('Post created successfully');
+        toast.success('🦄 Post Created Successfully', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
         onClose();
       } else {
-        alert('Failed to create post');
+        toast.error('Failed to create Post', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'dark',
+        });
       }
     } catch (error) {
       console.error(error);
-      alert('An error occurred while creating the post');
+      toast.error(error, {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
     }
 
+    handlePostAdded();
     actions.setSubmitting(false);
   };
 

@@ -87,7 +87,7 @@ const Homepage = () => {
                   top={{
                     base: index === 0 ? '30%' : '40%',
                     md: index === 0 ? '30%' : '30%',
-                    lg: index === 0 ? '60%' : '30%',
+                    lg: index === 0 ? '50%' : '30%',
                   }}
                   left={30}
                   maxW={index === 0 ? '800px' : '600px'}
