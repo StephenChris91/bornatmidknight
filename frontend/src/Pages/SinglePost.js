@@ -39,7 +39,15 @@ const SinglePost = () => {
                 {dateObj.toLocaleTimeString('en-US')}
               </Text>
             </div>
-            <Center maxW="800px" fontSize={'20px'}>
+            <Center
+              maxW="800px"
+              fontSize={'20px'}
+              p={{
+                base: '10px',
+                md: '5px',
+                lg: 'none',
+              }}
+            >
               <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
             </Center>
           </VStack>
