@@ -42,8 +42,6 @@ const Homepage = () => {
     fetchPosts();
   }, []);
 
-
-
   return (
     <Box textAlign="center" fontSize="xl">
       <Navbar />
@@ -83,7 +81,7 @@ const Homepage = () => {
                   position="absolute"
                   // top={index === 0 ? '50%' : '30%'}
                   top={{
-                    base: index === 0 ? '30%' : '40%',
+                    base: index === 0 ? '20%' : '40%',
                     md: index === 0 ? '30%' : '30%',
                     lg: index === 0 ? '50%' : '30%',
                   }}
