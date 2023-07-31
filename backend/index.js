@@ -9,7 +9,7 @@ require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const multer = require("multer");
 
 const app = express();
-// app.use(cors());
+app.use(cors());
 
 app.use("/uploads", express.static(__dirname + "/tmp"));
 app.use(bodyParser.json());

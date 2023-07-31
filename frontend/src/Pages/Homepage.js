@@ -42,11 +42,7 @@ const Homepage = () => {
     fetchPosts();
   }, []);
 
-  // Get the breakpoint value outside the callback function
-  const breakpointValue = useBreakpointValue({ base: 4, md: 8 });
-  const imagePath = process.env.REACT_APP_IS_PRODUCTION
-    ? 'http://localhost:4000/tmp/' // Use '/tmp/' for production (Vercel)
-    : 'http://localhost:4000/uploads/'; // Use 'http://localhost:4000/uploads/' for localhost
+
 
   return (
     <Box textAlign="center" fontSize="xl">
